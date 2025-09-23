@@ -21,8 +21,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-    "pedidoid": 1,
-    "numero": 345,
+    "numero": 365,
     "data": "2020-02-01",
     "valortotal": 1500.75,
     "clienteid": 1,
