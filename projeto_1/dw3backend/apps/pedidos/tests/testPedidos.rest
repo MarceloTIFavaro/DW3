@@ -21,7 +21,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-    "pedidoid": 0,
+    "pedidoid": 1,
     "numero": 345,
     "data": "2020-02-01",
     "valortotal": 1500.75,
@@ -56,7 +56,7 @@ Authorization: Bearer {{accessToken}}
 
 {
     "pedidoid": 1,
-    "numero": 345,
+    "numero": 350,
     "data": "2020-02-01",
     "valortotal": 2000.00,
     "clienteid": 1,
