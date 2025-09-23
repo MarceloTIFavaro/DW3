@@ -1,0 +1,73 @@
+### Login para pegar o token
+POST http://localhost:40000/Login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "qwe",
+    "password": "qwe"
+}
+
+### Seta o token
+@accessToken = {{loginAutenticado.response.body.$.token}}
+@username = {{loginAutenticado.response.body.$.username}}
+
+
+
+### Inserir pedido
+POST http://localhost:40000/insertPedidos HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "pedidoid": 0,
+    "numero": 345,
+    "data": "2020-02-01",
+    "valortotal": 1500.75,
+    "clienteid": 1,
+    "deleted": false
+}
+
+
+
+### Buscar todos os pedidos
+GET http://localhost:40000/getAllPedidos HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+
+### Buscar pedido por ID
+POST http://localhost:40000/getPedidoByID HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "pedidoid": 1
+}
+
+
+
+### Atualizar pedido
+POST http://localhost:40000/updatePedidos HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "pedidoid": 1,
+    "numero": 345,
+    "data": "2020-02-01",
+    "valortotal": 2000.00,
+    "clienteid": 1,
+    "deleted": false
+}
+
+
+
+### Deletar pedido (exclusão lógica)
+POST http://localhost:40000/deletePedidos HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "pedidoid": 1
+}
