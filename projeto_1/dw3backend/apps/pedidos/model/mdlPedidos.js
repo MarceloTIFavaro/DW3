@@ -1,4 +1,4 @@
-const db = require("../database/db"); // ajuste o caminho conforme sua estrutura
+const db = require("../../../database/databaseconfig");
 
 // Buscar todos os pedidos (somente os não deletados)
 const getAllPedidos = async () => {

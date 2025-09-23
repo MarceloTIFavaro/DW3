@@ -3,14 +3,16 @@ const bCrypt = require("bcryptjs");
 const mdlLogin = require("../model/mdlLogin");
 
 const Login = async (req, res, next) => { 
+
+  console.log("Corpo da Requisição Recebida:", req.body);
   
-  const credencial = await mdlLogin.GetCredencial(req.body.UserName);    
-   
+  const credencial = await mdlLogin.GetCredencial(req.body.username);    
+
   if (credencial.length == 0) {
     return res.status(403).json({ message: "Usuário não identificado!" });    
   }  
 
-  if (bCrypt.compareSync(req.body.Password, credencial[0].password)) {
+  if (bCrypt.compareSync(req.body.password, credencial[0].password)) {
     //auth ok
     const username = credencial[0].username;
     const token = jwt.sign({ username }, process.env.SECRET_API, {
