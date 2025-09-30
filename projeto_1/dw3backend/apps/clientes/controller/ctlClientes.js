@@ -1,57 +1,37 @@
-const mdlClientes = require("../model/mdlClientes");
+const mdlClientes = require('../model/mdlClientes');
 
 const getAllClientes = (req, res) =>
   (async () => {
-    try {
-      let registro = await mdlClientes.getAllClientes();
-      res.json({ status: "ok", registro: registro });
-    } catch (error) {
-      res.status(500).json({ status: "erro", message: error.message });
-    }
+    let registro = await mdlClientes.getAllClientes();
+    res.json({ status: 'ok', registro: registro });
   })();
 
 const getClienteByID = (req, res) =>
   (async () => {
-    try {
-      const clienteID = parseInt(req.body.clienteid);
-      let registro = await mdlClientes.getClienteByID(clienteID);
-      res.json({ status: "ok", registro: registro });
-    } catch (error) {
-      res.status(500).json({ status: "erro", message: error.message });
-    }
+    const clienteID = parseInt(req.body.clienteid);
+    let registro = await mdlClientes.getClienteByID(clienteID);
+    res.json({ status: 'ok', registro: registro });
   })();
 
-const insertClientes = (req, res) =>
+const insertClientes = (request, res) =>
   (async () => {
-    try {
-      const clienteREG = req.body;
-      let { msg, linhasAfetadas } = await mdlClientes.insertClientes(clienteREG);
-      res.json({ status: msg, linhasAfetadas: linhasAfetadas });
-    } catch (error) {
-      res.status(500).json({ status: "erro", message: error.message });
-    }
+    const clienteREG = request.body;
+    let { msg, linhasAfetadas } = await mdlClientes.insertClientes(clienteREG);
+    res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
 
-const updateClientes = (req, res) =>
+const updateClientes = (request, res) =>
   (async () => {
-    try {
-      const clienteREG = req.body;
-      let { msg, linhasAfetadas } = await mdlClientes.updateClientes(clienteREG);
-      res.json({ status: msg, linhasAfetadas: linhasAfetadas });
-    } catch (error) {
-      res.status(500).json({ status: "erro", message: error.message });
-    }
+    const clienteREG = request.body;
+    let { msg, linhasAfetadas } = await mdlClientes.updateClientes(clienteREG);
+    res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
 
-const deleteClientes = (req, res) =>
+const deleteClientes = (request, res) =>
   (async () => {
-    try {
-      const clienteREG = req.body;
-      let { msg, linhasAfetadas } = await mdlClientes.deleteClientes(clienteREG);
-      res.json({ status: msg, linhasAfetadas: linhasAfetadas });
-    } catch (error) {
-      res.status(500).json({ status: "erro", message: error.message });
-    }
+    const clienteREG = request.body;
+    let { msg, linhasAfetadas } = await mdlClientes.deleteClientes(clienteREG);
+    res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
 
 module.exports = {
@@ -59,5 +39,5 @@ module.exports = {
   getClienteByID,
   insertClientes,
   updateClientes,
-  deleteClientes
+  deleteClientes,
 };

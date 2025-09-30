@@ -21,8 +21,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {    
-    "clienteid": 0,
-    "codigo": "CLI03",
+    "codigo": "CLI08",
     "nome": "Carlos das Matias",
     "endereco": "Rua das Couves, 123",
     "ativo": true,
@@ -43,7 +42,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {    
-    "clienteid": 1
+    "clienteid": 8
 }
 
 ### teste de atualização de cliente
@@ -52,11 +51,11 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {    
-    "clienteid": 1,
-    "codigo": "CLI01",
+    "clienteid": "8",
+    "codigo": "CLI010",
     "nome": "João da Silva Júnior",
     "endereco": "Rua A1 - Atualizada",
-    "ativo": false,
+    "ativo": true,
     "deleted": false
 }
 
@@ -66,5 +65,5 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {    
-    "clienteid": 2  
+    "clienteid": 8
 }
