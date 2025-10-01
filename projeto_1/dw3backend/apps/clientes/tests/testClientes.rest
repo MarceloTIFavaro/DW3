@@ -4,66 +4,60 @@
 POST http://localhost:40000/Login HTTP/1.1
 content-type: application/json
 
-{    
+{
     "username": "qwe",
     "password": "qwe"
 }
-
 ### Seta o token
 @accessToken = {{loginAutenticado.response.body.$.token}}
-@username = {{loginAutenticado.response.body.$.username}}
 
-
-
-### teste de inserção de cliente
+### Teste de inserção de cliente
 POST http://localhost:40000/insertClientes HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 
-{    
-    "codigo": "CLI08",
-    "nome": "Carlos das Matias",
-    "endereco": "Rua das Couves, 123",
+{
+    "clienteid": 0,
+    "codigo": "CLI04",
+    "nome": "Ana Carolina",
+    "endereco": "Rua das Flores, 123",
     "ativo": true,
     "deleted": false
 }
 
-### teste de buscar todos os clientes
+### Teste de buscar todos os clientes
 GET http://localhost:40000/getAllClientes HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 
-{    
-}
-
-### teste de buscar cliente por ID
+### Teste de buscar cliente por ID
 POST http://localhost:40000/getClienteByID HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 
-{    
-    "clienteid": 8
+{
+    "clienteid": 7
 }
 
-### teste de atualização de cliente
+### Teste de atualização de cliente
 POST http://localhost:40000/updateClientes HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 
-{    
-    "clienteid": "8",
-    "codigo": "CLI010",
-    "nome": "João da Silva Júnior",
-    "endereco": "Rua A1 - Atualizada",
+{
+    "clienteid": 7,
+    "codigo": "CLI01-Xt",
+    "nome": "João da Silva Santos",
+    "endereco": "Rua A1, Centro",
     "ativo": true,
     "deleted": false
 }
 
-### teste de exclusão lógica de cliente
+### Teste de exclusão (soft delete) de cliente
 POST http://localhost:40000/deleteClientes HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 
-{    
-    "clienteid": 8
+{
+    "clienteid": 7
 }

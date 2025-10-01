@@ -21,7 +21,7 @@ Authorization: Bearer {{accessToken}}
 
 {    
     "alunoid": 0,
-    "prontuario": "pronto",
+    "prontuario": "pront9",
     "nome": "Carlos das Matias",
     "endereco": " Rua das couves",
     "rendafamiliar": 10000,
@@ -45,7 +45,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {    
-    "alunoid": 52
+    "alunoid": 1
 }
 
 
@@ -56,14 +56,15 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {    
-    "alunoid": 52,
-    "prontuario": "pront109",
+    "alunoid": 1,
+    "prontuario": "pront1",
     "nome": "xJosé das Neves",
-    "endereco": "x Rua das couves",
-    "rendafamiliar": 0,
+    "endereco": "Rua A, Votuporanga",
+    "rendafamiliar": "6891.60",
     "datanascimento": "1999-12-12",
-    "cursoid": 2,
-    "deleted": false
+    "cursoid": 1,
+    "deleted": false,
+    "descricao": "Bacharelado em Sistemas de Informação"
 }
 
 ### teste de atualização de aluno

@@ -1,15 +1,14 @@
-const mdlAlunos = require("../model/mdlAlunos");
+const mdlAlunos = require('../model/mdlAlunos');
 
 const getAllAlunos = (req, res) =>
   (async () => {
     let registro = await mdlAlunos.getAllAlunos();
     for (let i = 0; i < registro.length; i++) {
-      const row = registro[i]; // Current row      
+      const row = registro[i]; // Current row
       const formattedDate = row.datanascimento.toISOString().split('T')[0];
       row.datanascimento = formattedDate;
-      
     }
-    res.json({ status: "ok", "registro": registro });
+    res.json({ status: 'ok', registro: registro });
   })();
 
 const getAlunoByID = (req, res) =>
@@ -17,8 +16,7 @@ const getAlunoByID = (req, res) =>
     const alunoID = parseInt(req.body.alunoid);
     let registro = await mdlAlunos.getAlunoByID(alunoID);
 
-
-    res.json({ status: "ok", "registro": registro });
+    res.json({ status: 'ok', registro: registro });
   })();
 
 const insertAlunos = (request, res) =>
@@ -26,21 +24,21 @@ const insertAlunos = (request, res) =>
     //@ Atenção: aqui já começamos a utilizar a variável msg para retornar erros de banco de dados.
     const alunoREG = request.body;
     let { msg, linhasAfetadas } = await mdlAlunos.insertAlunos(alunoREG);
-    res.json({ "status": msg, "linhasAfetadas": linhasAfetadas });
+    res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
 
 const updateAlunos = (request, res) =>
   (async () => {
     const alunoREG = request.body;
     let { msg, linhasAfetadas } = await mdlAlunos.UpdateAlunos(alunoREG);
-    res.json({ "status": msg, "linhasAfetadas": linhasAfetadas });
+    res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
 
 const DeleteAlunos = (request, res) =>
   (async () => {
     const alunoREG = request.body;
     let { msg, linhasAfetadas } = await mdlAlunos.DeleteAlunos(alunoREG);
-    res.json({ "status": msg, "linhasAfetadas": linhasAfetadas });
+    res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
 
 module.exports = {
@@ -48,5 +46,5 @@ module.exports = {
   getAlunoByID,
   insertAlunos,
   updateAlunos,
-  DeleteAlunos
+  DeleteAlunos,
 };

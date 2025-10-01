@@ -1,9 +1,9 @@
-const mdlCursos = require("../model/mdlCursos");
+const mdlCursos = require('../model/mdlCursos');
 
 const GetAllCursos = (req, res) =>
   (async () => {
     let registro = await mdlCursos.GetAllCursos();
-    res.json({ status: "ok", registro: registro });
+    res.json({ status: 'ok', registro: registro });
   })();
 
 const GetCursoByID = (req, res) =>
@@ -11,7 +11,7 @@ const GetCursoByID = (req, res) =>
     const cursoID = parseInt(req.body.cursoid);
     let registro = await mdlCursos.GetCursoByID(cursoID);
 
-    res.json({ status: "ok", registro: registro });
+    res.json({ status: 'ok', registro: registro });
   })();
 
 const InsertCursos = (request, res) =>
@@ -40,5 +40,5 @@ module.exports = {
   GetCursoByID,
   InsertCursos,
   UpdateCursos,
-  DeleteCursos
+  DeleteCursos,
 };

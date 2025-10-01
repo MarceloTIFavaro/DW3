@@ -24,7 +24,8 @@ const Login = async (req, res) =>
             remoteMSG = "Servidor indisponível"
             return res.status(503).json({ status: "error", msg: "Erro ao fazer login: " + remoteMSG}); 
           }
-          if (error.code === "ERR_BAD_REQUEST" ) {            
+          if (error.code === "ERR_BAD_REQUEST" ) {   
+            
             remoteMSG = "Usuário não autenticado";
             return res.status(503).json({ status: "error", msg: "Erro ao fazer login: " + remoteMSG}); 
           }
