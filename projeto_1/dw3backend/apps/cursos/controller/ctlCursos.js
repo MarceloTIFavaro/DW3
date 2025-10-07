@@ -16,7 +16,6 @@ const GetCursoByID = (req, res) =>
 
 const InsertCursos = (request, res) =>
   (async () => {
-    //@ Atenção: aqui já começamos a utilizar a variável msg para retornar erros de banco de dados.
     const registro = request.body;
     let { msg, linhasAfetadas } = await mdlCursos.InsertCursos(registro);
     res.json({ status: msg, linhasAfetadas: linhasAfetadas });
@@ -35,6 +34,7 @@ const DeleteCursos = (request, res) =>
     let { msg, linhasAfetadas } = await mdlCursos.DeleteCursos(registro);
     res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();
+  
 module.exports = {
   GetAllCursos,
   GetCursoByID,
