@@ -5,25 +5,25 @@ const mdlLogin = require('../model/mdlLogin');
 const Login = async (req, res, next) => {
   const credencial = await mdlLogin.GetCredencial(req.body.username);
   if (credencial.length == 0) {
-    return res.status(200).json({ message: 'Usuário não identificado!' });
+    return res.status(401).json({ auth: false, message: 'Usuário não identificado!' });
   }
 
   if (bCrypt.compareSync(req.body.password, credencial[0].password)) {
     //auth ok
     const username = credencial[0].username;
     const token = jwt.sign({ username }, process.env.SECRET_API, {
-      expiresIn: 600, // expires in 10min
+      expiresIn: 3600, // 60min
     });
-    return res.json({ auth: true, token: token });
+    return res.json({ auth: true, token: token, username });
   }
-  res.status(200).json({ message: 'Login inválido!' });
+  res.status(401).json({ auth: false, message: 'Login inválido!' });
 };
 
 function AutenticaJWT(req, res, next) {
   const tokenHeader = req.headers['authorization'];
   if (!tokenHeader)
     return res
-      .status(200)
+      .status(401)
       .json({ auth: false, message: 'Não foi informado o token JWT' });
 
   const bearer = tokenHeader.split(' ');
@@ -32,10 +32,10 @@ function AutenticaJWT(req, res, next) {
   jwt.verify(token, process.env.SECRET_API, function (err, decoded) {
     if (err)
       return res
-        .status(200)
+        .status(401)
         .json({ auth: false, message: 'JWT inválido ou expirado' });
 
-    req.userId = decoded.id;
+    req.username = decoded.username;
     next();
   });
 }

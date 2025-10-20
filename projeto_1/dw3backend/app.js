@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { exec } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
+const db = require('./database/databaseconfig');
 
 const router = require('./routes/router');
  
@@ -14,6 +18,31 @@ app.use(express.json());
 //@ Utiliza o routerApp configurado em ./routes/route.js
 app.use(router);
 
-app.listen(port, () => {
+async function bootstrapDatabase() {
+  try {
+    const sqlPath = path.resolve(__dirname, './databaseConfig.sql');
+    const sql = fs.readFileSync(sqlPath, 'utf8');
+    await db.query(sql);
+    console.log('[DB] bootstrap executed successfully');
+  } catch (err) {
+    console.error('[DB] bootstrap failed:', err.message);
+  }
+}
+
+app.listen(port, async () => {
   console.log(`App listening at port ${port}`)
+  await bootstrapDatabase();
 })
+
+/*exec('cmd /c .\\runSrvFront.bat', (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Erro ao executar o script: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.error(`Erro de saída: ${stderr}`);
+    return;
+  }
+
+  console.log(`Saída do script: ${stdout}`);
+});*/

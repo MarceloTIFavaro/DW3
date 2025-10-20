@@ -1,0 +1,1 @@
+node ../dw3frontend/srvDW3Front.js

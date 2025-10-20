@@ -18,24 +18,22 @@
 
             <form @submit.prevent="submitForm">
               <div class="form-group mb-3">
+                <label for="codigo">Código</label>
+                <input type="text" class="form-control" id="codigo" x-model="form.codigo" required>
+              </div>
+
+              <div class="form-group mb-3">
                 <label for="descricao">Descrição</label>
                 <input type="text" class="form-control" id="descricao" x-model="form.descricao" required>
               </div>
 
               <div class="form-group mb-3">
-                <label for="cargahoraria">Carga Horária</label>
-                <input type="number" class="form-control" id="cargahoraria" x-model="form.cargahoraria" required>
-              </div>
-
-              <div class="form-group mb-3">
-                <label for="nivel">Nível</label>
-                <select class="form-select" id="nivel" x-model="form.nivel" required>
-                  <option value="">Selecione</option>
-                  <option value="Básico">Básico</option>
-                  <option value="Intermediário">Intermediário</option>
-                  <option value="Avançado">Avançado</option>
-                </select>
-              </div>
+                <label for="ativo">Ativo</label>
+                <select class="form-select" id="ativo" x-model="form.ativo" required>
+                   <option value="true">Sim</option>
+                   <option value="false">Não</option>
+                 </select>
+               </div>
 
               <button type="submit" class="btn btn-primary mt-2">Salvar</button>
               <a href="/cursos/ManutCursos" class="btn btn-secondary mt-2">Voltar</a>
@@ -58,40 +56,46 @@
     function cursoForm() {
       return {
         form: {
+          codigo: '',
           descricao: '',
-          cargahoraria: '',
-          nivel: ''
+          ativo: true, // Define 'Sim' como padrão
+          deleted: false // Inclui o campo deleted com valor padrão
         },
         message: '',
         messageClass: '',
 
         async submitForm() {
+          // Garante que 'ativo' seja booleano antes de enviar
+          this.form.ativo = this.form.ativo === 'true' || this.form.ativo === true;
+
           try {
+            console.log("Enviando dados:", JSON.stringify(this.form)); // Log para depuração
             const response = await fetch('/cursos/InsertCursos', {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(this.form)
             });
-
             const result = await response.json();
+            console.log("Resultado do backend:", result); // Log para depuração
 
             if (result.status === "ok") {
               alert("Curso cadastrado com sucesso!");
               this.resetForm();
             } else {
-              // Agora 'result.msg' SEMPRE terá a mensagem de erro
+              // Agora 'result.msg' SEMPRE terá a mensagem de erro vinda do backend ou do axios
               this.message = `Erro! Não foi possível cadastrar o curso: ${result.msg}`;
               this.messageClass = 'alert alert-danger';
             }
 
           } catch (error) {
+            console.error("Erro na requisição:", error); // Log detalhado do erro
             this.message = `Erro de conexão: ${error.message}`;
             this.messageClass = 'alert alert-danger';
           }
         },
 
         resetForm() {
-          this.form = { descricao: '', cargahoraria: '', nivel: '' };
+          this.form = { codigo: '', descricao: '', ativo: true, deleted: false };
           this.message = '';
         }
       }

@@ -14,12 +14,22 @@ const Login = async (req, res) =>
         return res.status(400).json({ status: "error", msg: "Dados de entrada validados" });
       };
 
-      const resp = await axios.post(process.env.SERVIDOR_DW3Back + "/login", formData, {
+      // Mapear para os nomes esperados no backend
+      const payload = {
+        username: formData.UserName,
+        password: formData.Password,
+      };
+
+      const resp = await axios.post(process.env.SERVIDOR_DW3Back + "/login", payload, {
         headers: {
           "Content-Type": "application/json",
         },
         timeout: 2000, //@ Define um, TIMEOUT de 2 segundos
       }).catch(error => {           
+          if (error.response && error.response.status === 401) {
+            remoteMSG = error.response.data?.message || "Usuário não autenticado";
+            return res.status(401).json({ status: "error", msg: "Erro ao fazer login: " + remoteMSG}); 
+          }
           if (error.code === "ECONNREFUSED" ) {            
             remoteMSG = "Servidor indisponível"
             return res.status(503).json({ status: "error", msg: "Erro ao fazer login: " + remoteMSG}); 
@@ -42,10 +52,9 @@ const Login = async (req, res) =>
       session.isLogged = true;
       session.userName = resp.data.username;
       session.token = resp.data.token;
-      session.tokenRefresh = resp.data.tokenRefresh;
       session.tempoInativoMaximoFront = process.env.tempoInativoMaximoFront;
       res.cookie("tempoInativoMaximoFront", process.env.tempoInativoMaximoFront, { sameSite: 'strict' });
-      return res.json({ status: "ok", msg: "Login com sucesso!" });
+      return res.json({ status: "ok", msg: "Login com sucesso!", username: session.userName });
     } else { //GET      
       var parametros = { title: "DW3 - Login", teste: "'192.168.13.1'", constraint: JSON.stringify(validate.constraints) }
       res.render("login/view/vwLogin.njk", parametros);

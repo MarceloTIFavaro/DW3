@@ -11,7 +11,12 @@ async function vwLogin() {
     //const passwordCrypto = CryptoJS.MD5(formData.get('Password')).toString();
     //formData.set('Password', passwordCrypto); 
 
-    resp = await axios.post('login', formData, {
+    const payload = {
+      UserName: formData.get('UserName'),
+      Password: formData.get('Password')
+    };
+
+    resp = await axios.post('/Login', payload, {
       headers: {
         "Content-Type": "application/json",
       },

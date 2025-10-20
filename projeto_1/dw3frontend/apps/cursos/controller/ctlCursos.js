@@ -23,9 +23,11 @@ const manutCursos = async (req, res) =>
       });
 
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        return res.redirect('/Login');
+      }
       let remoteMSG;
       if (error.code === "ECONNREFUSED") remoteMSG = "Servidor indisponível";
-      else if (error.code === "ERR_BAD_REQUEST") remoteMSG = "Usuário não autenticado";
       else remoteMSG = error.message;
 
       res.render("cursos/view/vwManutCursos.njk", {
@@ -83,12 +85,9 @@ const insertCursos = async (req, res) =>
 
       } catch (error) {
         console.error("[ctlCursos|insertCursos] A CHAMADA AXIOS FALHOU:", error.message);
-        
-        if (error.response) {
-          console.error('DADOS DO ERRO:', error.response.data);
-          console.error('STATUS DO ERRO:', error.response.status);
+        if (error.response && error.response.status === 401) {
+          return res.status(401).json({ status: "error", msg: "Sessão expirada. Faça login novamente." });
         }
-
         res.status(500).json({
           status: "error",
           msg: "Falha na comunicação com o servidor backend."
@@ -131,6 +130,9 @@ const ViewCursos = async (req, res) =>
       }
 
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        return res.redirect('/Login');
+      }
       console.error("[ctlCursos|ViewCursos] Erro ao buscar curso:", error.message);
       res.json({ status: "Erro ao buscar curso" });
     }
@@ -184,6 +186,9 @@ const UpdateCurso = async (req, res) =>
         });
       }
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        return res.status(401).json({ status: "error", msg: "Sessão expirada. Faça login novamente." });
+      }
       console.error("[ctlCursos|UpdateCurso] Erro ao atualizar curso:", error.message);
       res.json({
         status: "Error",
@@ -217,6 +222,9 @@ const DeleteCurso = async (req, res) =>
       });
 
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        return res.status(401).json({ status: "error", msg: "Sessão expirada. Faça login novamente." });
+      }
       console.error("[ctlCursos|DeleteCurso] Erro ao deletar curso:", error.message);
       res.json({
         status: "Error",
